@@ -10,13 +10,23 @@ import { HomeComponent } from './pages/home/home.component'
 import { FeedComponent } from './components/feed/feed.component'
 import { FormsModule } from '@angular/forms'
 import { ChatServiceService } from './services/chat-service.service'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { BotDialogComponent } from './components/bot-dialog/bot-dialog.component'
+import { FirebaseServiceService } from './services/firebase-service.service'
+import { FirebaseComponent } from './pages/firebase/firebase.component'
 
 @NgModule({
-	declarations: [ AppComponent, HeaderComponent, HomeComponent, FeedComponent, BotDialogComponent ],
+	declarations: [ AppComponent, HeaderComponent, HomeComponent, FeedComponent, BotDialogComponent, FirebaseComponent ],
 	imports: [ MaterialModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule ],
-	providers: [ ChatServiceService ],
+	providers: [
+		ChatServiceService,
+		FirebaseServiceService
+		// {
+		// 	provide: HTTP_INTERCEPTORS,
+		// 	useClass: FirebaseAuthInterceptorService,
+		// 	multi: true
+		// }
+	],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}
