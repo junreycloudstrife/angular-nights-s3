@@ -30,17 +30,17 @@ export class FirebaseServiceService {
 	}
 
 	async addRecord(data) {
-		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
+		const url = `/api/firebase/users.json?auth=${localStorage.getItem('idToken')}`
 		return this.http.post(url, data, this.httpOptions).toPromise()
 	}
 
 	async getRecord() {
-		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
+		const url = `/api/firebase/users.json?auth=${localStorage.getItem('idToken')}`
 		return this.http.get(url, this.httpOptions).toPromise()
 	}
 
 	signup(data, callback) {
-		const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${this.apiKey}`
+		const url = `/api/google/signupNewUser?key=${this.apiKey}`
 		data['returnSecureToken'] = true
 		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe(
 			(response) => {
@@ -54,7 +54,7 @@ export class FirebaseServiceService {
 	}
 
 	login(data, callback) {
-		const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${this.apiKey}`
+		const url = `/api/google/verifyPassword?key=${this.apiKey}`
 		data['returnSecureToken'] = true
 		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe(
 			(response) => {

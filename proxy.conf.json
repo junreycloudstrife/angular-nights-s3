@@ -1,11 +1,28 @@
 {
   "/api/cakechat": {
-    "target": "http://localhost:8000/cakechat_api/v1/actions",
+    "target": "https://cakechat.replika.ai/cakechat_api/v1/actions",
     "pathRewrite": {
       "^/api/cakechat": ""
     },
     "changeOrigin": true,
     "debug": true
+  },
+  "/api/firebase": {
+    "target": "https://angularcebu.firebaseio.com",
+    "pathRewrite": {
+      "^/api/firebase": ""
+    },
+    "changeOrigin": true,
+    "debug": true
+  },
+  "/api/google": {
+    "target": "https://www.googleapis.com/identitytoolkit/v3/relyingparty",
+    "pathRewrite": {
+      "^/api/google": ""
+    },
+    "changeOrigin": true,
+    "debug": true
   }
+
 
 }

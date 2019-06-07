@@ -21,7 +21,8 @@
     </mat-form-field>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="submit()">Submit Contact</button>
+    <button mat-flat-button color="primary" style="display: block; width: 100%; margin-bottom: 10px;" (click)="submit()"
+      [disabled]="contact.invalid">Add Contact</button>
   </mat-card-actions>
 </mat-card>
 <mat-card *ngFor="let record of records">
