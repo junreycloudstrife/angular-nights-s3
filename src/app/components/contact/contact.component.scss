@@ -1,22 +1,18 @@
+mat-card {
+  margin-bottom: 10px;
+}
+
 td:first-child {
   border-right: solid 3px #000000;
+  padding-right: 20px;
   text-align: center;
-  width: 100px;
-}
-
-td:last-child {
-  padding-left: 20px;
-}
-
-table {
-  width: 100%;
 }
 
 td {
   vertical-align: middle;
 
   mat-icon {
-    font-size: 50px;
+    font-size: 100px;
   }
 
   mat-list-item {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FirebaseServiceService } from 'src/app/services/firebase-service.service'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
 	selector: 'app-firebase',
@@ -8,22 +9,53 @@ import { FirebaseServiceService } from 'src/app/services/firebase-service.servic
 })
 export class FirebaseComponent implements OnInit {
 	constructor(public firebaseSvc: FirebaseServiceService) {}
+	accountCreateForm = new FormGroup({
+		email: new FormControl('', [ Validators.email, Validators.required ]),
+		password: new FormControl('', [ Validators.required, Validators.minLength(5) ])
+	})
 
-	ngOnInit() {}
+	isSignUp = false
+	isNotLoggedIn = true
+	errorMessage = ''
+
+	ngOnInit() {
+		this.isNotLoggedIn = !this.firebaseSvc.isLoggedIn()
+	}
+
+	resetForm() {
+		this.accountCreateForm.reset()
+		this.errorMessage = ''
+	}
 
 	login() {
-		this.firebaseSvc.login()
+		if (this.accountCreateForm.valid) {
+			this.firebaseSvc.login(this.accountCreateForm.getRawValue(), (resp) => {
+				if (resp.hasOwnProperty('error')) {
+					this.errorMessage = 'Email or password incorrect'
+				} else {
+					this.isNotLoggedIn = false
+					this.errorMessage = ''
+				}
+			})
+		}
+	}
+
+	logOut() {
+		this.firebaseSvc.logOut()
+		this.isNotLoggedIn = true
 	}
 
 	signup() {
-		this.firebaseSvc.signup()
-	}
-
-	post() {
-		this.firebaseSvc.addRecord()
-	}
-
-	get() {
-		this.firebaseSvc.getRecord()
+		if (this.accountCreateForm.valid) {
+			this.firebaseSvc.signup(this.accountCreateForm.getRawValue(), (resp) => {
+				console.log(resp)
+				if (resp.hasOwnProperty('error')) {
+					this.errorMessage = 'An existing record of the email exists'
+				} else {
+					this.isNotLoggedIn = false
+					this.errorMessage = ''
+				}
+			})
+		}
 	}
 }

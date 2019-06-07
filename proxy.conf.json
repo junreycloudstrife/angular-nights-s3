@@ -1,6 +1,6 @@
 {
   "/api/cakechat": {
-    "target": "https://cakechat.replika.ai/cakechat_api/v1/actions",
+    "target": "http://localhost:8000/cakechat_api/v1/actions",
     "pathRewrite": {
       "^/api/cakechat": ""
     },

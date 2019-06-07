@@ -1,4 +1,57 @@
-<button mat-button (click)="login()">Login</button>
-<button mat-button (click)="signup()">Signup</button>
-<button mat-button (click)="post()">Post</button>
-<button mat-button (click)="get()">Get</button>
+<div class="body" *ngIf="isNotLoggedIn">
+  <mat-card class="loginBox" *ngIf="!isSignUp">
+    <mat-card-content [formGroup]="accountCreateForm">
+      <h1>Login to Firebase
+      </h1>
+      <mat-form-field style="display: block;" appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input matInput formControlName="email">
+        <mat-error>Enter Valid Email</mat-error>
+      </mat-form-field>
+      <mat-form-field style="display: block;" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error>Enter at least 5 characters</mat-error>
+      </mat-form-field>
+      <div class="errorMessage" *ngIf="errorMessage.length !== 0">
+        {{ errorMessage }}
+      </div>
+      <button mat-flat-button color="primary" style="display: block; width: 100%; margin-bottom: 10px;"
+        (click)="login()" [disabled]="accountCreateForm.invalid">Login</button>
+      <button mat-flat-button color="accent" style="display: block; width: 100%;"
+        (click)="isSignUp = true; resetForm();">Create an
+        Account</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="loginBox" *ngIf="isSignUp">
+    <mat-card-content [formGroup]="accountCreateForm">
+      <h1>Signup with Email
+      </h1>
+      <mat-form-field style="display: block;" appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input matInput formControlName="email">
+        <mat-error>Enter Valid Email</mat-error>
+      </mat-form-field>
+      <mat-form-field style="display: block;" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error>Enter at least 5 characters</mat-error>
+      </mat-form-field>
+      <div class="errorMessage" *ngIf="errorMessage.length !== 0">
+        {{ errorMessage }}
+      </div>
+      <button mat-flat-button color="primary" style="display: block; width: 100%; margin-bottom: 10px;"
+        (click)="signup()" [disabled]="accountCreateForm.invalid">Sign Up</button>
+      <button mat-flat-button color="accent" style="display: block; width: 100%;"
+        (click)="isSignUp = false; resetForm();">Go back to
+        Log In</button>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="!isNotLoggedIn" class="_body">
+  <div style="width: 100%; text-align: right; padding-bottom: 20px;">
+    <button mat-flat-button (click)="logOut()" color="accent">Log Out</button>
+  </div>
+  <app-contact></app-contact>
+</div>

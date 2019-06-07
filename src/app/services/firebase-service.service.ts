@@ -21,53 +21,53 @@ export class FirebaseServiceService {
 		})
 	}
 
-	addRecord() {
-		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
-		const data = {
-			name: 'Cyrus Zandro Hiyas',
-			age: '23'
-		}
-
-		console.log(url)
-
-		this.http.post(url, data, this.httpOptions).subscribe((response) => {
-			console.log(response)
-		})
+	isLoggedIn() {
+		return localStorage.getItem('idToken') !== null
 	}
 
-	getRecord() {
-		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
-
-		console.log(url)
-
-		this.http.get(url, this.httpOptions).subscribe((response) => {
-			console.log(response)
-		})
+	getID() {
+		return localStorage.getItem('idToken')
 	}
 
-	signup() {
+	async addRecord(data) {
+		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
+		return this.http.post(url, data, this.httpOptions).toPromise()
+	}
+
+	async getRecord() {
+		const url = `https://angularcebu.firebaseio.com/users.json?auth=${localStorage.getItem('idToken')}`
+		return this.http.get(url, this.httpOptions).toPromise()
+	}
+
+	signup(data, callback) {
 		const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${this.apiKey}`
-		const data = {
-			email: 'chiyas@agsx.net',
-			password: 'helloworld',
-			returnSecureToken: true
-		}
-		console.log(data)
-		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe((response) => {
-			this.saveTokens(response)
-		})
+		data['returnSecureToken'] = true
+		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe(
+			(response) => {
+				this.saveTokens(response)
+				callback(response)
+			},
+			(error) => {
+				callback(error)
+			}
+		)
 	}
 
-	login() {
+	login(data, callback) {
 		const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${this.apiKey}`
-		const data = {
-			email: 'chiyas@agsx.net',
-			password: 'helloworld',
-			returnSecureToken: true
-		}
-		console.log(data)
-		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe((response) => {
-			this.saveTokens(response)
-		})
+		data['returnSecureToken'] = true
+		this.http.post(url, new Blob([ JSON.stringify(data) ]), this.httpOptions).subscribe(
+			(response) => {
+				this.saveTokens(response)
+				callback(response)
+			},
+			(error) => {
+				callback(error)
+			}
+		)
+	}
+
+	logOut() {
+		localStorage.clear()
 	}
 }
